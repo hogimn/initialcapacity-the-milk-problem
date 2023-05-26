@@ -2,9 +2,9 @@ name: gradle-build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -31,6 +31,7 @@ jobs:
         run: |
           psql postgresql://postgres:postgres@localhost:5432/postgres -c "create database milk_test;"
           psql postgresql://postgres:postgres@localhost:5432/postgres -c "create user milk with password 'milk';"
+          psql postgresql://postgres:postgres@localhost:5432/postgres -c "alter user milk with superuser;"
       - name: Migrate database
         run: |
           wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/7.5.4/flyway-commandline-7.5.4-linux-x64.tar.gz | tar xvz && sudo ln -s `pwd`/flyway-7.5.4/flyway /usr/local/bin
